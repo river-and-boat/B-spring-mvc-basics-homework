@@ -33,5 +33,6 @@ public class User {
     private String password;
 
     @Email(message = ErrorMessage.EMAIL_INVALID)
-    private String email;
+    @Builder.Default
+    private String email = "";
 }
