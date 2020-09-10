@@ -5,8 +5,8 @@ package com.thoughtworks.capacity.gtb.mvc.exception;
  * @Date 2020/9/10 8:03
  * @Description ***
  **/
-public class UserExistException extends Exception{
-    public UserExistException(String message) {
+public class UserException extends Exception{
+    public UserException(String message) {
         super(message);
     }
 }

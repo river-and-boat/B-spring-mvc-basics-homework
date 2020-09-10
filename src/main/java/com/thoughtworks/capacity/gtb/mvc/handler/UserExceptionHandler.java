@@ -1,7 +1,7 @@
 package com.thoughtworks.capacity.gtb.mvc.handler;
 
 import com.thoughtworks.capacity.gtb.mvc.common.ErrorResult;
-import com.thoughtworks.capacity.gtb.mvc.exception.UserExistException;
+import com.thoughtworks.capacity.gtb.mvc.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,9 +19,9 @@ import java.util.Optional;
  **/
 @ControllerAdvice
 public class UserExceptionHandler {
-    @ExceptionHandler(UserExistException.class)
-    public ResponseEntity userExistException(UserExistException userExistException) {
-        ErrorResult errorResult = new ErrorResult(userExistException.getMessage());
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity userExistException(UserException userException) {
+        ErrorResult errorResult = new ErrorResult(userException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(errorResult);
     }
@@ -29,7 +29,7 @@ public class UserExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity userConstraintException(ConstraintViolationException ex) {
         Optional<ConstraintViolation<?>> constrainException = ex.getConstraintViolations()
-                .stream().findAny();
+                .stream().findFirst();
         if (constrainException.isPresent()) {
             ErrorResult errorResult = new ErrorResult(constrainException.get().getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
