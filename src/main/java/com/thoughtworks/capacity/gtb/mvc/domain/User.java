@@ -26,7 +26,7 @@ public class User {
     @Length(min = 3, max = 10, message = ErrorMessage.USER_INVALID)
     @Pattern(regexp = "^[0-9a-zA-Z_]+$", message = ErrorMessage.USER_INVALID)
     @NotNull(message = ErrorMessage.USER_NOT_NULL)
-    private String userName;
+    private String username;
 
     @NotNull(message = ErrorMessage.PASSWORD_NOT_NULL)
     @Length(min = 5, max = 12, message = ErrorMessage.PASSWORD_INVALID)

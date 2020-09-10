@@ -23,7 +23,7 @@ public class UserRepository {
         userEntities = new ArrayList<>();
     }
 
-    public void saveUserEntity(UserEntity userEntity) throws UserExistException {
+    public UserEntity saveUserEntity(UserEntity userEntity) throws UserExistException {
         userEntity.setId(generateId());
         Optional<UserEntity> existUser = userEntities.stream().filter(user ->
                 user.getUserName().equals(userEntity.getUserName()))
@@ -32,6 +32,7 @@ public class UserRepository {
             throw new UserExistException(ErrorMessage.USER_EXIST);
         }
         userEntities.add(userEntity);
+        return userEntity;
     }
 
     private synchronized Integer generateId() {
