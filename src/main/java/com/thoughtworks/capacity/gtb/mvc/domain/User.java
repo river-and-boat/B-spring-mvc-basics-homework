@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.*;
 
@@ -20,8 +21,9 @@ import javax.validation.constraints.*;
 public class User {
     private Integer id;
 
-    @NotBlank(message = ErrorMessage.USER_NOT_NULL)
+    @Range
     @Size(min = 3, max = 10, message = ErrorMessage.USER_INVALID)
+    @NotBlank(message = ErrorMessage.USER_NOT_NULL)
     @Pattern(regexp = "^[0-9a-zA-Z_]+$", message = ErrorMessage.USER_INVALID)
     private String username;
 
