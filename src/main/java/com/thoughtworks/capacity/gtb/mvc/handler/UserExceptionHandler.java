@@ -1,10 +1,12 @@
 package com.thoughtworks.capacity.gtb.mvc.handler;
 
+import com.thoughtworks.capacity.gtb.mvc.common.ErrorMessage;
 import com.thoughtworks.capacity.gtb.mvc.common.ErrorResult;
 import com.thoughtworks.capacity.gtb.mvc.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -21,7 +23,8 @@ import java.util.Optional;
 public class UserExceptionHandler {
     @ExceptionHandler(UserException.class)
     public ResponseEntity userExistException(UserException userException) {
-        ErrorResult errorResult = new ErrorResult(userException.getMessage());
+        ErrorResult errorResult = new ErrorResult(ErrorMessage.REQUEST_ERROR_CODE,
+                userException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(errorResult);
     }
@@ -31,7 +34,8 @@ public class UserExceptionHandler {
         Optional<ConstraintViolation<?>> constrainException = ex.getConstraintViolations()
                 .stream().findFirst();
         if (constrainException.isPresent()) {
-            ErrorResult errorResult = new ErrorResult(constrainException.get().getMessage());
+            ErrorResult errorResult = new ErrorResult(ErrorMessage.REQUEST_ERROR_CODE,
+                    constrainException.get().getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(errorResult);
         }
@@ -42,7 +46,15 @@ public class UserExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResult> handle(MethodArgumentNotValidException ex) {
         String message = ex.getBindingResult().getFieldError().getDefaultMessage();
-        ErrorResult errorResult = new ErrorResult(message);
+        ErrorResult errorResult = new ErrorResult(ErrorMessage.REQUEST_ERROR_CODE, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResult> requestParameterException(MissingServletRequestParameterException ex) {
+        String parameterName = ex.getParameterName();
+        String message = parameterName + "是必填项";
+        ErrorResult errorResult = new ErrorResult(ErrorMessage.REQUEST_ERROR_CODE, message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 }

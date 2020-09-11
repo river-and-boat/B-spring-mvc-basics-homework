@@ -36,7 +36,7 @@ public class UserRepository {
     public UserEntity getUserByName(String username) throws UserException {
         Optional<UserEntity> userEntity = findUserByName(username);
         if (!userEntity.isPresent()) {
-            throw new UserException("用户名错误");
+            throw new UserException("用户名或密码错误");
         }
         return userEntity.get();
     }

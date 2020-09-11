@@ -31,7 +31,7 @@ public class UserService {
             throws UserException {
         UserEntity userEntity = userRepository.getUserByName(username);
         if (!userEntity.getPassword().equals(password)) {
-            throw new UserException("密码错误");
+            throw new UserException("用户名或密码错误");
         }
         return User.builder()
                 .id(userEntity.getId())

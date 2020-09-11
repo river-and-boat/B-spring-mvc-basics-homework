@@ -5,11 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 /**
  * @Auto Jiang Yuzhou
@@ -23,13 +20,13 @@ import javax.validation.constraints.Pattern;
 public class User {
     private Integer id;
 
-    @Length(min = 3, max = 10, message = ErrorMessage.USER_INVALID)
+    @NotBlank(message = ErrorMessage.USER_NOT_NULL)
+    @Size(min = 3, max = 10, message = ErrorMessage.USER_INVALID)
     @Pattern(regexp = "^[0-9a-zA-Z_]+$", message = ErrorMessage.USER_INVALID)
-    @NotNull(message = ErrorMessage.USER_NOT_NULL)
     private String username;
 
-    @NotNull(message = ErrorMessage.PASSWORD_NOT_NULL)
-    @Length(min = 5, max = 12, message = ErrorMessage.PASSWORD_INVALID)
+    @NotBlank(message = ErrorMessage.PASSWORD_NOT_NULL)
+    @Size(min = 5, max = 12, message = ErrorMessage.PASSWORD_INVALID)
     private String password;
 
     @Email(message = ErrorMessage.EMAIL_INVALID)

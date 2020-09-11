@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorResult {
+    private Integer code;
     private String errorMessage;
 }

@@ -11,8 +11,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * @Auto Jiang Yuzhou
@@ -41,14 +43,14 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<User> login(@RequestParam(value = "username", required = false)
-                                      @NotNull(message = ErrorMessage.USER_NOT_NULL)
+    public ResponseEntity<User> login(@RequestParam(value = "username")
+                                      @NotBlank(message = ErrorMessage.USER_NOT_NULL)
                                       @Pattern(regexp = USERNAME_PATTERN, message = ErrorMessage.USER_INVALID)
-                                      @Length(min = 3, max = 10, message = ErrorMessage.USER_INVALID)
+                                      @Size(min = 3, max = 10, message = ErrorMessage.USER_INVALID)
                                               String username,
-                                      @RequestParam(value = "password", required = false)
-                                      @NotNull(message = ErrorMessage.PASSWORD_NOT_NULL)
-                                      @Length(min = 5, max = 12, message = ErrorMessage.PASSWORD_INVALID)
+                                      @RequestParam(value = "password")
+                                      @NotBlank(message = ErrorMessage.PASSWORD_NOT_NULL)
+                                      @Size(min = 5, max = 12, message = ErrorMessage.PASSWORD_INVALID)
                                               String password) throws UserException {
         User user = userService.validateUserNameAndPassword(username, password);
         return ResponseEntity.ok(user);
