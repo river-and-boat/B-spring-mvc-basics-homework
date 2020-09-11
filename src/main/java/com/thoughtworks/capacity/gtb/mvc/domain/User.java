@@ -21,7 +21,6 @@ import javax.validation.constraints.*;
 public class User {
     private Integer id;
 
-    @Range
     @Size(min = 3, max = 10, message = ErrorMessage.USER_INVALID)
     @NotBlank(message = ErrorMessage.USER_NOT_NULL)
     @Pattern(regexp = "^[0-9a-zA-Z_]+$", message = ErrorMessage.USER_INVALID)
